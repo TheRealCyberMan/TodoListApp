@@ -1,0 +1,133 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: linear-gradient(45deg, #6ac1c5, #bda5ff);
+}
+
+header {
+    background-color: linear-gradient(45deg, #6ac1c5, #bda5ff);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 10px;
+}
+
+main {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+}
+
+.menu {
+    text-align: left;
+    width: 300px;
+    padding: 20px;
+    background-color: linear-gradient(45deg, #6ac1c5, #bda5ff);
+    color: linear-gradient(45deg, #6ac1c5, #bda5ff);
+    border-radius: 10px;
+    margin: 0 auto 20px auto;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg,#6ac1c5,#bda5ff)
+}
+
+header {
+    background-color: linear-gradient(45deg, #6ac1c5, #bda5ff);
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 20px;
+
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 10;
+}
+
+header {
+    backround: linear-gradient(45deg,#6ac1c5,#bda5ff);
+    text-align: center;
+    margin-top: auto;
+    padding: 0px;
+}
+
+main {
+    text-align: center;
+}
+
+
+.calendar {
+    width: 580;
+    height: 290;
+    margin: 0 auto;
+    font-size: 20;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 20px;
+    text-align: center;
+}
+
+.calendar-day {
+
+    padding: 10px;
+    background-color: linear-gradient(45deg, #6ac1c5, #bda5ff);
+    border-radius: 6px; 
+    cursor: pointer;
+}
+
+.calendar-day:hover {
+    background-color: #c1b9b9;
+}
+
+.selected {
+    background-color: #337ab7;
+    color: rgb(0, 0, 0);
+}
+.bottom-nav {
+    background-color: #333;
+    color: linear-gradient(45deg, #6ac1c5, #bda5ff);
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.bottom-nav {
+    background: linear-gradient(45deg, #6ac1c5, #bda5ff);
+
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.bottom-nav .nav-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.bottom-nav .nav-menu li {
+    display: inline;
+    margin: 0 20px;
+}
+
+.bottom-nav .nav-menu a {
+    text-decoration: none;
+    color: linear-gradient(45deg, #6ac1c5, #bda5ff);
+    font-weight: bold;
+}
+
+
+

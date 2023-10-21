@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dark-mode.css') }}">
+    <!-- Add Flask url_for() to link to your routes -->
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form__logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form__logo img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .form {
+            width: 400px;
+            padding: 30px;
+            background: #222;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+    
+        .form__box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        .form__left,
+        .form__right {
+            width: 100%;
+        }
+    
+        .form__padding {
+            width: 150px;
+            height: 150px;
+            background: #333;
+            border-radius: 50%;
+            margin: 0 auto;
+            line-height: 150px;
+            position: relative;
+            text-align: center;
+        }
+    
+        .form__image {
+            max-width: 100%;
+            width: 60%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    
+        .form__padding-right {
+            padding: 0 25px;
+        }
+    
+        .form__title {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    
+        .form__submit-btn {
+            background: #1fcc44;
+            cursor: pointer;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            color: #000;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s ease-in-out;
+        }
+    
+        .form__submit-btn:hover {
+            background: #ff3f70;
+        }
+    
+        .form__username,
+        .form__password {
+            display: block;
+            width: 100%;
+            margin-bottom: 25px;
+            height: 35px;
+            border-radius: 20px;
+            border: none;
+            background: #333;
+            padding: 10px;
+            font-size: 14px;
+            color: #fff;
+        }
+    
+        .form__username:after,
+        .form__password:after {
+            position: absolute;
+            content: 'a***';
+            color: #fff;
+        }
+    
+        .form__link {
+            color: #71df88;
+            position: relative;
+        }
+    
+        .form__link:hover {
+            color: #ff3f70;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="form">
+        <!-- <div class="form__logo">
+                <img src="{{ url_for('static', filename='/ZenTasks.png') }}" alt="Your Logo">
+            </div> -->
+        <div class="form__box">
+            <div class="form__left">
+            </div>
+            <div class="form__right">
+                <div class="form__padding-right">
+                    <form id="loginForm">
+                        <h1 class="form__title">ZenTasks Login</h1>
+                        <input class="form__username" type="text" placeholder="Username"/>
+                        <input class="form__password" type="password" placeholder="Password" show="*"/>
+                        <button class="form__submit-btn" type="button" onclick="login()">Login</button>
+                    </form>
+                    <p> <a class="form__link" href="{{ url_for('signup_page') }}">Create your account</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('change', () => {
+            body.classList.toggle('dark-mode', darkModeToggle.checked);
+        });
+
+        // Function to handle login
+        function login() {
+            const username = document.querySelector('.form__username').value;
+            const password = document.querySelector('.form__password').value;
+
+            // Use AJAX to send a POST request to the Flask backend
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/login', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    // Check if the login was successful
+                    if (xhr.responseText.trim() === "Login successful!") {
+                        // Redirect to the main page if login was successful
+                        window.location.href = '/main';
+                    } else {
+                        // If login failed, display an alert with the error message
+                        alert(xhr.responseText);
+                    }
+                } else {
+                    // If there was an error, display an alert with the status text
+                    alert('Error: ' + xhr.statusText);
+                }
+            }
+            };
+            xhr.send(`username=${username}&password=${password}`);
+        }
+    </script>
+</body>
+</html>
