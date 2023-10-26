@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
+    <title>Zentasks - Signup</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='dark-mode.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
     <!-- Add Flask url_for() to link to your routes -->
     <style>
         body {
@@ -15,19 +17,61 @@
             box-sizing: border-box;
             text-decoration: none;
             background-color: #000;
+            background-color: #262626;
             color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
+
+        .welcome-text-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            justify-content: center;
+            text-align: left;
+            padding: 0 100px; /* Adjust padding to your preference */
+            
+        }
+
+        .main-content {
+            text-align: left;
+           
+        }
+
+        .welcome-text {
+            font-size: 50px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            /* color: dodgerblue; */
+            color: #1fcc44;
+            color: white;
+        }
+
+        .welcome-text-des {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
     
         .form {
             width: 400px;
             padding: 30px;
             background: #222;
+            background-color: #4c4c4c;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            margin-right: 150px;
+            align-items: center;
         }
     
         .form__box {
@@ -63,6 +107,8 @@
     
         .form__padding-right {
             padding: 0 25px;
+            align-items: center;
+            text-align: center;
         }
     
         .form__title {
@@ -74,6 +120,7 @@
     
         .form__submit-btn {
             background: #1fcc44;
+            background-color: white;
             cursor: pointer;
             width: 100%;
             padding: 10px;
@@ -86,7 +133,7 @@
         }
     
         .form__submit-btn:hover {
-            background: #ff3f70;
+            background: #1fcc44;
         }
     
         .form__username,
@@ -99,6 +146,7 @@
             border-radius: 20px;
             border: none;
             background: #333;
+            background-color: #262626;
             padding: 10px;
             font-size: 14px;
             color: #fff;
@@ -112,23 +160,41 @@
         }
     
         .form__link {
-            color: #71df88;
+            color: #1fcc44;
             position: relative;
+            color: white;
+
         }
     
         .form__link:hover {
             color: #ff3f70;
+            color: #1fcc44;
         }
 
-        .Encryption{
-            font-weight: lighter;
-            text-align: center;
+        .form__link_guest {
+            color: #1fcc44;
+            position: relative;
+            padding-left: 70px;
+            color: white;
+        }
+
+        .form__link_guest:hover {
+            color: #1fcc44;
         }
     
     </style>
     
 </head>
 <body>
+
+    <div class="welcome-text-body">
+        
+        <div class="main-content">
+            <p class="welcome-text">Welcome to ZenTask, <br>{{ username }}</p>
+            <p class="welcome-text-des">We manage your time,<br>so you don't have to.</p>
+        </div>
+    </div>
+
     <div class="form">
         <div class="form__box">
             <div class="form__left">
@@ -142,8 +208,11 @@
                         <input class="form__confirm-password" type="password" placeholder="Confirm Password" show="*"/>
                         <button class="form__submit-btn" type="button" onclick="signup()" id="signupBtn"">Sign Up</button>
                     </form>
-                    <p> <a class="form__link" href="{{ url_for('login_page') }}">Already have an account?</a></p>
-                    <h6 class="Encryption">256 - Encryption</h6>
+                    <p>
+                        <a class="form__link" href="{{ url_for('login_page') }}">Already have an account?</a>
+                        <a class="form__link_guest" href="{{ url_for('dashboard__guest') }}">Guest Login</a>
+                    </p>
+                    <h6 class="fas fa-lock"> 256 - Encryption</h6>
 
                 </div>
             </div>

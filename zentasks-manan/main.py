@@ -3,7 +3,6 @@ import sqlite3
 import hashlib
 from flask import Flask, render_template, request, session, redirect, url_for
 
-
 app = Flask(__name__, static_folder='static')
 app.secret_key = "your_secret_key"  # Change this to a secure secret key
 
@@ -52,6 +51,15 @@ def signup_page():
 
         if username_exists(new_username):
             return "Username already exists. Please choose a different username."
+        
+        if (new_username=="" or new_password==""):
+            return "Username or Password is empty."
+        
+        if(len(new_username)<6 or len(new_password)<6):
+            return "Username and Password must be atleast 6 characters!"
+        
+        # if(new_username.find(" ") or new_password.find(" ")):
+        #     return "Username and Password cannot contain space!"
 
         else:
             cur.execute("INSERT INTO userdata(username, password) VALUES (?, ?)", (new_username, new_password))
@@ -62,11 +70,49 @@ def signup_page():
     return render_template('signup.html')
 
 @app.route('/dashboard')
-def main():
+def dashboard():
     username = session.get('username')
-    # If you're using a different way to store the username, adjust accordingly
+    if username == "Guest":
+        return render_template('dashboard.html', username="Guest")
+    if username is None:
+        return redirect(url_for('login_page'))
     return render_template('dashboard.html', username=username)
 
+@app.route('/dashboard-guest')
+def dashboard__guest():
+    username = session.get('username')
+    if username !=None or username != "Guest":
+        username = session.get('username')
+        # return redirect(url_for('dashboard'))
+        return render_template('dashboard.html', username="Guest")
+    
+    return render_template('dashboard.html', username=username)
 
+@app.route('/')
+def landing_page():
+    return render_template('landing.html')
+
+@app.route('/dashboard/todo')
+def todo_page():
+    username = session.get('username')
+    if username is None or username == "Guest":
+        return redirect(url_for('login_page'))
+    else:
+        return render_template('todo.html')
+    
+@app.route('/logout')
+def logout():
+    # Clear the session to log out the user
+    session.clear()
+    return redirect(url_for('landing_page'))
+
+@app.route('/dashboard/profile')
+def profile_page():
+    username = session.get('username')
+    if username is None or username == "Guest":
+        return redirect(url_for('login_page'))
+    else:
+        return render_template('profile.html', username=username)
+    
 if __name__ == '__main__':
     app.run(debug=True, port=9999)
