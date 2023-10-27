@@ -62,7 +62,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;  
-      background: #2F302F;
       background-color: #262626;
       transition: 0.5s;
       z-index: 2;
@@ -169,6 +168,8 @@
       justify-content: center;
       align-items: center;
       background-color: #778899;
+      background-color: #4c4c4c;
+
     }
     .menu ul
     {
@@ -219,11 +220,15 @@
         <div class="text">
           <h2>We manage your time,</h2> 
           <h3>So you dont have to !</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. lorem50</p>
-          <a href="{{ url_for('signup_page') }}">Register</a>
+          <p>Zentask is a cutting-edge and user-friendly software solution that helps users 
+            efficiently manage their goals and objectives. With Zentask, users can easily keep 
+            track of their weekly schedules and also view their daily and upcoming tasks to 
+            ensure timely completion. Employing Zentask can help users streamline their operations
+             and achieve their desired outcomes in everyday activities. Zentask doesn’t just 
+             aim to help increase the quality of life of the user, but also values the productivity of the person. 
+             This innovative tool has been endorsed by several professionals who aim to enhance their productivity, including 
+             athletes such as Sanjiv Umashanker, Shashwat Singh, Shivani Sridharan, and Dakotah Weatherly.</p>
+          <a href="{{ url_for('signup_page') }}">Register Now</a>
         </div>
         <ul class="social">
           <li><a href="#"><img src="https://i.ibb.co/x7P24fL/facebook.png"></a></li>
@@ -236,8 +241,10 @@
           <li><a href="{{ url_for('landing_page') }}"> Home</a></li>
           <li><a href="{{ url_for('login_page') }}"> Login</a></li>
           <li><a href="{{ url_for('signup_page') }}"> Sign Up</a></li>
+          <li><a href="{{ url_for('dashboard') }}"> Dashboard</a></li>
           <li><a href="{{ url_for('dashboard__guest') }}"> Guest Dashboard</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="https://formsubmit.co/el/nowizo"  target="_blank">Contact</a></li>
+          <li><a href="{{ url_for('profile_page') }}"> Profile</a></li>
         </ul>
       </div>
       <script>

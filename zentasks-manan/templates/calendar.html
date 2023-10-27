@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Calendar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <script src="Calendar.js" defer></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    background-color: #444;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    justify-content: center;
+    min-height: 100vh;
+    background: transparent; /* Fully transparent background */
+}
+
+header .current-date {
+    font-size: 1.45rem;
+    font-weight: 500;
+    color: white; /* Add this line to set the text color to white */
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    transition: right 0.3s;
+    z-index: 9999;
+}
+.wrapper header {
+    display: flex;
+    align-items: center;
+    padding: 25px 30px 10px;
+    justify-content: space-between;
+}
+#add-event-button {
+    transition: transform 0.2s;
+}
+
+#add-event-button:hover {
+    transform: scale(1.2); 
+}
+
+header .icons {
+    display: flex;
+}
+
+header .icons span {
+    height: 38px;
+    width: 38px;
+    margin: 0 1px;
+    cursor: pointer;
+    color: #878787;
+    text-align: center;
+    line-height: 38px;
+    font-size: 1.9rem;
+    user-select: none;
+    border-radius: 50%;
+}
+
+header .icons span:last-child {
+    margin-right: -10px;
+}
+
+header .icons span:hover {
+    background: #394149;
+}
+
+header .current-date {
+    font-size: 1.45rem;
+    font-weight: 500;
+}
+
+.calendar {
+    padding: 20px;
+}
+
+.calendar ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    text-align: center;
+}
+
+.calendar .days {
+    margin-bottom: 20px;
+}
+
+.calendar li {
+    color: #007AFF;
+    width: calc(100% / 7);
+    font-size: 1.07rem;
+}
+
+.calendar .weeks li {
+    font-weight: 500;
+    cursor: default;
+}
+
+.calendar .days li {
+    z-index: 1;
+    cursor: pointer;
+    position: relative;
+    margin-top: 30px;
+}
+
+.days li.inactive {
+    color: #aaa;
+}
+
+.days li.active {
+    color: #007AFF;
+}
+
+.days li::before {
+    position: absolute;
+    content: "";
+    left: 50%;
+    top: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.days li.active::before {
+    background: #222;
+}
+
+.days li:not(.active):hover::before {
+    background: #394149;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    background: #222;
+    width: 100%;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 70px;
+    padding-top: 23px;
+    position: relative;
+}
+
+nav a {
+    color: #007AFF;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: #000;
+}
+
+nav a::before {
+    content: '';
+    display: block;
+    height: 5px;
+    background-color: #444;
+    position: absolute;
+    top: 0;
+    width: 0%;
+    transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+    width: 100%;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    transition: right 0.3s;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar input {
+    width: 80%;
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+.sidebar button {
+    background: #007AFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background: #0066CC;
+}
+
+.event-list {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#event-list {
+    list-style: none;
+    padding: 0;
+}
+
+#event-list li {
+    margin: 5px;
+    font-size: 14px;
+}
+
+.dot {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background: #007AFF;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: -5px;
+}
+
+.green-dot {
+    background: green;
+}
+
+.yellow-dot {
+    background: yellow;
+}
+
+.red-dot {
+    background: red;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <p class="current-date"></p>
+            <div class="icons">
+                <span id="prev" class="material-symbols-rounded">chevron_left</span>
+                <span id="next" class="material-symbols-rounded">chevron_right</span>
+            </div>
+            <button id="add-event-button" class="material-symbols-rounded">event</button>
+        </header>
+        <div class="calendar">
+            <ul class="weeks">
+                <li>Sun</li>
+                <li>Mon</li>
+                <li>Tue</li>
+                <li>Wed</li>
+                <li>Thu</li>
+                <li>Fri</li>
+                <li>Sat</li>
+            </ul>
+            <ul class="days"></ul>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="sidebar-content">
+            <button id="close-sidebar-button" class="material-symbols-rounded">close</button>
+            <h2>Add Event</h2>
+            <input type="text" id="event-name" placeholder="Event Name">
+            <input type="date" id="event-date">
+            <input type="time" id="event-time" placeholder="Event Time">
+            <button id="save-event-button" class="material-symbols-rounded">add</button>
+            <button id="clear-events-button" class="material-symbols-rounded">clear</button>
+            <h2>Events</h2>
+            <ul id="event-list"></ul>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const daysTag = document.querySelector(".days");
+    const currentDate = document.querySelector(".current-date");
+    const prevNextIcon = document.querySelectorAll(".icons span");
+
+    let date = new Date();
+    let currYear = date.getFullYear();
+    let currMonth = date.getMonth();
+
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    const events = {};
+
+    function renderCalendar() {
+        let firstDayofMonth = new Date(currYear, currMonth, 1).getDay();
+        let lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate();
+        let lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay();
+        let lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate();
+        let liTag = "";
+        
+        for (let i = firstDayofMonth; i > 0; i--) {
+            liTag += `<li class="inactive">${lastDateofLastMonth - i + 1}</li>`;
+        }
+
+        for (let i = 1; i <= lastDateofMonth; i++) {
+            let isToday = i === date.getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear() ? "active" : "";
+            let eventCount = events[`${currYear}-${currMonth + 1}-${i}`] || 0;
+            let dotClass = getDotClass(eventCount);
+            liTag += `<li class="${isToday}" data-date="${i}">${i}${dotClass}</li>`;
+        }
+
+        for (let i = lastDayofMonth; i < 6; i++) {
+            liTag += `<li class="inactive">${i - lastDayofMonth + 1}</li>`;
+        }
+        currentDate.innerText = `${months[currMonth]} ${currYear}`;
+        daysTag.innerHTML = liTag;
+    }
+
+    function getDotClass(eventCount) {
+        if (eventCount >= 5) {
+            return '<span class="dot red-dot"></span>';
+        } else if (eventCount >= 3) {
+            return '<span class="dot yellow-dot"></span>';
+        } else if (eventCount >= 1) {
+            return '<span class="dot green-dot"></span>';
+        } else {
+            return '';
+        }
+    }
+
+    function openSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.style.right = '0';
+    }
+
+    function closeSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        sidebar.style.right = '-300px';
+    }
+
+    function saveEvent() {
+        const eventNameInput = document.getElementById('event-name');
+        const eventDateInput = document.getElementById('event-date');
+        const eventTimeInput = document.getElementById('event-time');
+    
+        const eventName = eventNameInput.value;
+        const eventDate = eventDateInput.value;
+        const eventTime = eventTimeInput.value;
+    
+        // Convert military time to regular time
+        const militaryTimeParts = eventTime.split(':');
+        let hours = parseInt(militaryTimeParts[0]);
+        const minutes = militaryTimeParts[1];
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12; // Handle midnight (0) as 12
+    
+        const regularTime = `${hours}:${minutes} ${ampm}`;
+    
+        if (eventName && eventDate) {
+            eventNameInput.value = '';
+            eventDateInput.value = '';
+            eventTimeInput.value = '';
+    
+            if (!events[`${eventDate}`]) {
+                events[`${eventDate}`] = [{ name: eventName, time: regularTime }];
+            } else {
+                events[`${eventDate}`].push({ name: eventName, time: regularTime });
+            }
+    
+            renderCalendar();
+            closeSidebar();
+        }
+    }
+    
+    function showTasksForDate(selectedDate) {
+        const sidebar = document.querySelector('.sidebar');
+        const eventList = document.getElementById('event-list');
+        eventList.innerHTML = '';
+        sidebar.style.right = '0';
+    
+        const tasks = events[`${currYear}-${currMonth + 1}-${selectedDate}`];
+    
+        if (tasks && tasks.length > 0) {
+            for (const task of tasks) {
+                const eventItem = document.createElement('li');
+                eventItem.textContent = `${task.name} - ${task.time}`;
+                eventList.appendChild(eventItem);
+            }
+        } else {
+            const eventItem = document.createElement('li');
+            eventItem.textContent = 'No tasks for this date.';
+            eventList.appendChild(eventItem);
+        }
+    }
+    
+
+    function clearEvents() {
+        const eventNameInput = document.getElementById('event-name');
+        const eventDateInput = document.getElementById('event-date');
+
+        const eventDate = eventDateInput.value;
+        delete events[eventDate];
+
+        renderCalendar();
+        eventNameInput.value = '';
+        eventDateInput.value = '';
+        closeSidebar();
+    }
+
+    renderCalendar();
+
+    prevNextIcon.forEach(icon => {
+        icon.addEventListener("click", () => {
+            currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+
+            if (currMonth < 0 || currMonth > 11) {
+                date = new Date(currYear, currMonth, new Date().getDate());
+                currYear = date.getFullYear();
+            } else {
+                date = new Date();
+            }
+            renderCalendar();
+        });
+    });
+
+    daysTag.addEventListener('click', (e) => {
+        if (e.target.classList.contains('active')) {
+            const selectedDate = e.target.getAttribute('data-date');
+            showTasksForDate(selectedDate);
+        }
+    });
+
+    document.getElementById('add-event-button').addEventListener('click', openSidebar);
+    document.getElementById('close-sidebar-button').addEventListener('click', closeSidebar);
+    document.getElementById('save-event-button').addEventListener('click', saveEvent);
+    document.getElementById('clear-events-button').addEventListener('click', clearEvents);
+});
+
+    </script>
+</body>
+</html>

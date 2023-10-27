@@ -114,5 +114,14 @@ def profile_page():
     else:
         return render_template('profile.html', username=username)
     
+@app.route('/dashboard/calendar')
+def calendar_page():
+    username = session.get('username')
+    if username is None or username == "Guest":
+        return redirect(url_for('login_page'))
+    else:
+        return render_template('Calendar.html', username=username)
+    
+    
 if __name__ == '__main__':
     app.run(debug=True, port=9999)
