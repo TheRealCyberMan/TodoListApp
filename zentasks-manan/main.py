@@ -31,6 +31,7 @@ def login_page():
         if user_data:
             # return "Login successful! Welcome, {} back to ZenTasks".format(username)
             return "Login successful!"
+            user_id = user_data[0]
             #We need to redirect to main.html from here
         else:
             return "Login failed. User Not Found or incorrect password."
@@ -64,6 +65,11 @@ def signup_page():
         else:
             cur.execute("INSERT INTO userdata(username, password) VALUES (?, ?)", (new_username, new_password))
             conn.commit()
+
+            # Get the user_id of the newly created user
+            cur.execute("SELECT id FROM userdata WHERE username=?", (new_username,))
+            user_id = cur.fetchone()[0]
+
             return "Login successful!"
         #We need to redirect to main.html from here
         
@@ -98,7 +104,7 @@ def todo_page():
     if username is None or username == "Guest":
         return redirect(url_for('login_page'))
     else:
-        return render_template('todo.html')
+        return render_template('todo.html', username=username)
     
 @app.route('/logout')
 def logout():
