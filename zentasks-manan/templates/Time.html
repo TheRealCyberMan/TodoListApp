@@ -1,0 +1,161 @@
+<div id="clock">
+  <h1 id="date-time"></h1>
+  <a href="{{ url_for('dashboard') }}" class="back-button">
+    <i class="fas fa-chevron-left"></i> Back to Dashboard
+  </a>
+</div>
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400&display=swap");
+
+  html {
+    font-size: 62.5%;
+  }
+  body {
+    text-align: center;
+    font-family: "Oswald", sans-serif;
+    font-weight: 300;
+    font-size: 2.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black; /* Set the background color to black */
+    height: 100vh;
+  }
+  #clock {
+    max-width: 600px;
+  }
+
+  /* for smaller screens below 700px */
+  @media only screen and (max-width: 700px) {
+    body {
+      font-size: 1.8rem;
+    }
+  }
+
+  /* for smaller screens below 300px */
+  @media only screen and (max-width: 300px) {
+    body {
+      font-size: 1.6rem;
+    }
+  }
+
+  #date-time {
+    color: #1fcc44; /* Set the color to green (#1fcc44) */
+  }
+  .back-button {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: #1fcc44; /* Green color */
+    border: 1px solid #1fcc44; /* Green border */
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+ .back-button:hover {
+    background-color: #1fcc44; /* Green background on hover */
+    color: #262626; /* Text color on hover */
+  }
+</style>
+
+<script>
+  window.addEventListener("load", () => {
+    clock();
+    function clock() {
+      const today = new Date();
+
+      // get time components
+      const hours = today.getHours();
+      const minutes = today.getMinutes();
+      const seconds = today.getSeconds();
+
+      // add '0' to hour, minute & second when they are less 10
+      const hour = hours < 10 ? "0" + hours : hours;
+      const minute = minutes < 10 ? "0" + minutes : minutes;
+      const second = seconds < 10 ? "0" + seconds : seconds;
+
+      // make the clock a 12-hour time clock
+      const hourTime = hour > 12 ? hour - 12 : hour;
+
+      // assign 'am' or 'pm' to indicate the time of day
+      const ampm = hour < 12 ? "AM" : "PM";
+
+      // get date components
+      const month = today.getMonth();
+      const year = today.getFullYear();
+      const day = today.getDate();
+
+      // declaring a list of all months in a year
+      const monthList = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ];
+
+      // get the current date and time
+      const date = monthList[month] + " " + day + ", " + year;
+      const time = hourTime + ":" + minute + ":" + second + ampm;
+
+      // combine the current date and time
+      const dateTime = date + " - " + time;
+
+      // print the current date and time to the DOM
+      document.getElementById("date-time").innerHTML = dateTime;
+      setTimeout(clock, 1000);
+    }
+  });
+</script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    const sendButton = document.getElementById('sendBtn');
+    const messageInput = document.getElementById('messageInput');
+    const chatlogs = document.getElementById('chatlogs');
+
+    sendButton.addEventListener('click', function() {
+        let messageContent = messageInput.value.trim();
+
+        if (messageContent !== '') {
+            // Create a message element for the user message
+            let userMessageElement = document.createElement('div');
+            userMessageElement.className = 'user-message';
+            userMessageElement.textContent = messageContent;
+            chatlogs.appendChild(userMessageElement);
+
+            // Send the user message to the server for processing
+            sendMessageToServer(messageContent);
+        }
+    });
+
+    // Function to send user messages to the server
+    function sendMessageToServer(message) {
+        fetch('/chat', {
+            method: 'POST',
+            body: JSON.stringify({ message: message }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Create a message element for the chatbot's response
+            let chatbotMessageElement = document.createElement('div');
+            chatbotMessageElement.className = 'chatbot-message';
+            chatbotMessageElement.textContent = data.response;
+            chatlogs.appendChild(chatbotMessageElement);
+
+            // Clear the input field for new messages
+            messageInput.value = '';
+        });
+    }
+});
