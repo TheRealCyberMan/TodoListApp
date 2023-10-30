@@ -4,207 +4,196 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <!-- <link rel="stylesheet" href="dashboard-style.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-*{
-  margin: 0;
-  padding: 0;
-  outline: none;
-  border: none;
-  text-decoration: none;
-  list-style: none;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            outline: none;
+            border: none;
+            text-decoration: none;
+            list-style: none;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
 
-body{
-    display: flex;
-}
+        body {
+            display: flex;
+        }
 
-.sidebar{
-    position: sticky;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 252px;
-    height: 100vh;
-    padding: 0 1.7rem;
-    color: #fff;
-    overflow: hidden;
-    transition: all ease-in-out 250ms;
-    /* background-color: #2F302F; */
-    background-color: #4c4c4c;
+        .sidebar {
+            position: sticky;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 252px;
+            height: 100vh;
+            padding: 0 1.7rem;
+            color: #fff;
+            overflow: hidden;
+            transition: all ease-in-out 250ms;
+            background-color: #4c4c4c;
+        }
 
-}
+        .logo {
+            height: 80px;
+            padding: 16px;
+        }
 
-.logo{
-    height: 80px;
-    padding: 16px;
-}
+        .menu {
+            height: 88%;
+            position: relative;
+            list-style: none;
+            padding: 0;
+        }
 
-.menu{
-    height: 88%;
-    position: relative;
-    list-style: none;
-    padding: 0;
-}
-.menu li{
-    padding: 1rem;
-    margin: 8px 0;
-    border-radius: 8px;
-    /* transition: all 0.5s ease-in-out; */
-    transition: all ease-in-out 250ms;
-}
-.menu li:hover{
-    /* background-color: #1fcc44; */
-    background-color:#1fcc44;
+        .menu li {
+            padding: 1rem;
+            margin: 8px 0;
+            border-radius: 8px;
+            transition: all ease-in-out 250ms;
+        }
 
-    color: #2F302F;
-    /* transition: all ease-in-out 250ms; */
-}
-.menu a{
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-.menu a span{
-    overflow: hidden;
-}
-.menu a i{
-    font-size: 1.2rem;
-}
+        .menu li:hover {
+            background-color: #1fcc44;
+            color: #2F302F;
+        }
 
-.logout{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 180px;
-    
-}
+        .menu a {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
-.main__content{
-    position: relative;
-    /* background-color: #778899; */
-    background-color: #262626;
-    /* background-color: black; */
-    width: 100%;
-    padding: 1rem;
-}
+        .menu a span {
+            overflow: hidden;
+        }
 
-.header__wrapper{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    background-color: #2F302F;
-    background-color: #4c4c4c;
-    border-radius: 10px;
-    padding: 10px 2rem;
-    margin-bottom: 1rem;
-}
+        .menu a i {
+            font-size: 1.2rem;
+        }
 
-.header__title{
-    color: white;
-}
+        .logout {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 180px;
+        }
 
-.user__info{
-    display: flex;
-    align-items: center;
-    gap: 1;
-}
+        .main__content {
+            position: relative;
+            background-color: #262626;
+            width: 100%;
+            padding: 1rem;
+        }
 
-.search__box{
-    /* background-color: bla; */
-    background-color: #4c4c4c;
-    background-color: #262626;
+        .header__wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: #4c4c4c;
+            border-radius: 10px;
+            padding: 10px 2rem;
+            margin-bottom: 1rem;
+        }
 
-    border-radius: 15px;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 4px 12px;
-    margin-left: 700px;
-}
+        .header__title {
+            color: white;
+        }
 
-.search__box input{
-    /* background-color: #778899; */
+        .user__info {
+            display: flex;
+            align-items: center;
+            gap: 1;
+        }
 
-    background-color: #4c4c4c;
-    background-color: #262626;
-    padding: 10px;
-    border-radius: 15px;
-    color: white;
-}
+        .search__box {
+            background-color: #262626;
+            border-radius: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            margin-left: 700px;
+        }
 
-.search__box ::placeholder{
-    color: white;
-}
+        .search__box input {
+            background-color: #262626;
+            padding: 10px;
+            border-radius: 15px;
+            color: white;
+        }
 
-.search__box i{
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: all 0.5s ease-out;
-}
+        .search__box ::placeholder {
+            color: white;
+        }
 
-/* Main Section */
-.main{
-  position: relative;
-  padding: 20px;
-  width: 100%;
-}
-.main-top{
-  display: flex;
-  width: 100%;
-}
-.main-top i{
-  position: absolute;
-  right: 0;
-  margin: 10px 30px;
-  color: rgb(110, 109, 109);
-  cursor: pointer;
-}
-.main-skills{
-  display: flex;
-  margin-top: 20px;
-  color: white;
-}
-.main-skills .card{
-  width: 50%;
-  height: 605px;
-  margin: 10px;
-  background: #2F302F;
-  background-color: #4c4c4c;
-  text-align: center;
-  border-radius: 20px;
-  padding: 10px;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-}
-.main-skills .card h3{
-  margin: 10px;
-  text-transform: capitalize;
-  color: white;
-}
-.main-skills .card p{
-  font-size: 12px;
-  color: white;
-}
+        .search__box i {
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.5s ease-out;
+        }
 
-.main-skills .card i{
-  font-size: 22px;
-  padding: 10px;
-}
+        /* Main Section */
+        .main {
+            position: relative;
+            padding: 20px;
+            width: 100%;
+        }
 
+        .main-top {
+            display: flex;
+            width: 100%;
+        }
 
+        .main-top i {
+            position: absolute;
+            right: 0;
+            margin: 10px 30px;
+            color: rgb(110, 109, 109);
+            cursor: pointer;
+        }
 
+        .main-skills {
+            display: flex;
+            margin-top: 20px;
+            color: white;
+        }
+
+        .main-skills .card {
+            width: 50%;
+            height: 605px;
+            margin: 10px;
+            background-color: #4c4c4c;
+            text-align: center;
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-skills .card h3 {
+            margin: 10px;
+            text-transform: capitalize;
+            color: white;
+        }
+
+        .main-skills .card p {
+            font-size: 12px;
+            color: white;
+        }
+
+        .main-skills .card i {
+            font-size: 22px;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
-
     <div class="sidebar">
         <div class="logo"></div>
         <ul class="menu">
@@ -223,15 +212,15 @@ body{
             <li>
                 <a href="{{ url_for('calendar_page') }}">
                     <i class="fas fa-calendar"></i>
-                    <span>Calender</span>
+                    <span>Calendar</span>
                 </a>
             </li>
-           <li>
-    <a href="{{ url_for('chatgpt_page') }}">
-        <i class="fas fa-robot"></i> <!-- Assuming "fas fa-robot" represents the ZenAI icon -->
-        <span>ZenAI</span>
-    </a>
-</li>
+            <li>
+                <a href="{{ url_for('chatgpt_page') }}">
+                    <i class="fas fa-robot"></i>
+                    <span>ZenAI</span>
+                </a>
+            </li>
             <li>
                 <a href="{{ url_for('todo_page') }}">
                     <i class="fas fa-tasks"></i>
@@ -239,11 +228,10 @@ body{
                 </a>
             </li>
             <li>
-               <a href="Time.html">
-    <i class="fas fa-history"></i>
-    <span>Time</span>
-</a>
-
+                <a href="{{ url_for('time_page') }}">
+                    <i class="fas fa-history"></i>
+                    <span>Time</span>
+                </a>
             </li>
             <li>
                 <a href="#">
@@ -254,52 +242,41 @@ body{
             <li class="logout">
                 <a href="{{ url_for('logout') }}">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span">Logout</span>
+                    <span>Logout</span>
                 </a>
             </li>
         </ul>
     </div>
 
-        <div class="main__content">
+    <div class="main__content">
         <div class="header__wrapper">
             <div class="header__title">
                 <span>Hi, {{ username }}</span>
                 <h2>Dashboard</h2>
             </div>
             <div class="user__info">
-                <div class="search__box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search"/>
-                </div>
-            </div>
-        </div>
-
-        <section class="main">
-            <div class="main-top">
-              <h1></h1>
-            </div>
-            <div class="main-skills">
-              <div class="card">
-                <i class="fas fa-calendar"></i>
-                <h3>Calendar</h3>
-                <iframe src="{{ url_for('calendar_page') }}" width="100%" height="500"></iframe>
-            </div>
-              <div class="card">
-                <i class="fas fa-tasks"></i>
-                <h3>To-Do List</h3>
-                <iframe src="{{ url_for('todo2_page') }}" width="100%" height="500"></iframe>
-                <p>content</p>
-              </div>
-        </section>
+            <div class="search__box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search"/>
             </div>
         </div>
     </div>
 
-    <script>
-
-        function logout(){
-            window.location.href = '/login';
-        }
-    </script>
-</body>
-</html>
+    <section class="main">
+        <div class="main-top">
+            <h1></h1>
+        </div>
+        <div class="main-skills">
+            <div class="card">
+                <i class="fas fa-calendar"></i>
+                <h3>Calendar</h3>
+                <iframe src="calendar.html" width="100%" height="500"></iframe>
+            </div>
+            <div class="card">
+                <i class="fas fa-tasks"></i>
+                <h3>To-Do List</h3>
+                <iframe src="widget.html" width="600" height="800" frameborder="0"></iframe>
+            </div>
+        </div>
+    </section>
+</div>
