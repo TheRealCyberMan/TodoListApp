@@ -15,7 +15,8 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    background-color: #444;
+    color: rgb(110, 109, 109);
+    background-color: #4c4c4c;
 }
 
 body {
@@ -25,6 +26,7 @@ body {
     justify-content: center;
     min-height: 100vh;
     background: transparent; /* Fully transparent background */
+
 }
 
 header .current-date {
@@ -39,7 +41,6 @@ header .current-date {
     right: -300px;
     width: 300px;
     height: 100%;
-    background: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -83,7 +84,7 @@ header .icons span:last-child {
 }
 
 header .icons span:hover {
-    background: #394149;
+    background: #485f4d;
 }
 
 header .current-date {
@@ -107,7 +108,7 @@ header .current-date {
 }
 
 .calendar li {
-    color: #007AFF;
+    color: #1fcc44;
     width: calc(100% / 7);
     font-size: 1.07rem;
 }
@@ -129,7 +130,7 @@ header .current-date {
 }
 
 .days li.active {
-    color: #007AFF;
+    color: #1fcc44;
 }
 
 .days li::before {
@@ -145,11 +146,11 @@ header .current-date {
 }
 
 .days li.active::before {
-    background: #222;
+    background: #393939;
 }
 
 .days li:not(.active):hover::before {
-    background: #394149;
+    background: #485f4d;
 }
 
 nav {
@@ -174,7 +175,7 @@ nav li {
 }
 
 nav a {
-    color: #007AFF;
+    color: #1fcc44;
     text-decoration: none;
     text-transform: uppercase;
     font-size: 14px;
@@ -206,7 +207,7 @@ nav a:hover::before {
     width: 300px;
     height: 100%;
     background: #fff;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -225,7 +226,7 @@ nav a:hover::before {
 }
 
 .sidebar button {
-    background: #007AFF;
+    background: #1fcc44;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -233,7 +234,7 @@ nav a:hover::before {
 }
 
 .sidebar button:hover {
-    background: #0066CC;
+    background: #1fcc44;
 }
 
 .event-list {
@@ -272,8 +273,6 @@ nav a:hover::before {
 .red-dot {
     background: red;
 }
-
-
     </style>
 </head>
 <body>
@@ -369,64 +368,79 @@ nav a:hover::before {
     }
 
     function closeSidebar() {
-        const sidebar = document.querySelector('.sidebar');
-        sidebar.style.right = '-300px';
-    }
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.style.right = '-300px';
+
+    // Remove the 'true' class from all day elements
+    const dayElements = document.querySelectorAll('.days li');
+    dayElements.forEach((day) => {
+        day.classList.remove('true');
+        dayElements.forEach((day) => {
+        day.classList.add('true');
+    });
+    });
+}
 
     function saveEvent() {
-        const eventNameInput = document.getElementById('event-name');
-        const eventDateInput = document.getElementById('event-date');
-        const eventTimeInput = document.getElementById('event-time');
-    
-        const eventName = eventNameInput.value;
-        const eventDate = eventDateInput.value;
-        const eventTime = eventTimeInput.value;
-    
-        // Convert military time to regular time
-        const militaryTimeParts = eventTime.split(':');
-        let hours = parseInt(militaryTimeParts[0]);
-        const minutes = militaryTimeParts[1];
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12 || 12; // Handle midnight (0) as 12
-    
-        const regularTime = `${hours}:${minutes} ${ampm}`;
-    
-        if (eventName && eventDate) {
-            eventNameInput.value = '';
-            eventDateInput.value = '';
-            eventTimeInput.value = '';
-    
-            if (!events[`${eventDate}`]) {
-                events[`${eventDate}`] = [{ name: eventName, time: regularTime }];
-            } else {
-                events[`${eventDate}`].push({ name: eventName, time: regularTime });
-            }
-    
-            renderCalendar();
-            closeSidebar();
+    const eventNameInput = document.getElementById('event-name');
+    const eventDateInput = document.getElementById('event-date');
+    const eventTimeInput = document.getElementById('event-time');
+
+    const eventName = eventNameInput.value;
+    const eventDate = eventDateInput.value;
+    const eventTime = eventTimeInput.value;
+
+    // Convert military time to regular time
+    const militaryTimeParts = eventTime.split(':');
+    let hours = parseInt(militaryTimeParts[0]);
+    const minutes = militaryTimeParts[1];
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; // Handle midnight (0) as 12
+
+    const regularTime = `${hours}:${minutes} ${ampm}`;
+
+    if (eventName && eventDate) {
+        eventNameInput.value = '';
+        eventDateInput.value = '';
+        eventTimeInput.value = '';
+
+        // Store the event in the events object using the selected eventDate as the key
+        if (!events[eventDate]) {
+            events[eventDate] = [{ name: eventName, time: regularTime }];
+        } else {
+            events[eventDate].push({ name: eventName, time: regularTime });
         }
+
+        renderCalendar();
+        // Open the sidebar after saving the event
+        openSidebar();
     }
+}
+
     
     function showTasksForDate(selectedDate) {
-        const sidebar = document.querySelector('.sidebar');
-        const eventList = document.getElementById('event-list');
-        eventList.innerHTML = '';
-        sidebar.style.right = '0';
+    const sidebar = document.querySelector('.sidebar');
+    const eventList = document.getElementById('event-list');
+    eventList.innerHTML = '';
+    sidebar.style.right = '0';
+
+    const selectedYear = currYear; // Use the current year
+    const selectedMonth = currMonth + 1; // Use the current month (adding 1 to match JavaScript's month indexing)
     
-        const tasks = events[`${currYear}-${currMonth + 1}-${selectedDate}`];
-    
-        if (tasks && tasks.length > 0) {
-            for (const task of tasks) {
-                const eventItem = document.createElement('li');
-                eventItem.textContent = `${task.name} - ${task.time}`;
-                eventList.appendChild(eventItem);
-            }
-        } else {
+    const tasks = events[`${selectedYear}-${selectedMonth}-${selectedDate}`];
+
+    if (tasks && tasks.length > 0) {
+        for (const task of tasks) {
             const eventItem = document.createElement('li');
-            eventItem.textContent = 'No tasks for this date.';
+            eventItem.textContent = `${task.name} - ${task.time}`;
             eventList.appendChild(eventItem);
         }
+    } else {
+        const eventItem = document.createElement('li');
+        eventItem.textContent = 'No tasks for this date.';
+        eventList.appendChild(eventItem);
     }
+}
     
 
     function clearEvents() {
@@ -454,12 +468,27 @@ nav a:hover::before {
             } else {
                 date = new Date();
             }
+            makeAllDaysActive;
             renderCalendar();
         });
+        daysTag.addEventListener('click', (e) => {
+    const selectedDate = e.target.getAttribute('data-date');
+    showTasksForDate(selectedDate);
+});
     });
+    function makeAllDaysActive() {
+    const dayElements = document.querySelectorAll('.days li');
+    
+    dayElements.forEach((day) => {
+        day.classList.add('true');
+    });
+}
+
+// You can call this function to make all days active.
+makeAllDaysActive();
 
     daysTag.addEventListener('click', (e) => {
-        if (e.target.classList.contains('active')) {
+        if (e.target.classList.contains('true')) {
             const selectedDate = e.target.getAttribute('data-date');
             showTasksForDate(selectedDate);
         }

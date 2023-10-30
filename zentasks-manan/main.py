@@ -38,6 +38,14 @@ def login_page():
 
     return render_template('login.html')
 
+@app.route('/dashboard/zenai')
+def zenai_page():
+    username = session.get('username')
+    if username is None or username == "Guest":
+        return redirect(url_for('login_page'))
+    else:
+        return render_template('chatgpt.html', username=username)
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup_page():
     if request.method == 'POST':
@@ -105,7 +113,16 @@ def todo_page():
         return redirect(url_for('login_page'))
     else:
         return render_template('todo.html', username=username)
-    
+
+@app.route('/dashboard/chatgpt')
+def chatgpt_page():
+    username = session.get('username')
+    if username is None or username == "Guest":
+        return redirect(url_for('login_page'))
+    else:
+        return render_template('chatgpt.html', username=username)
+
+
 @app.route('/logout')
 def logout():
     # Clear the session to log out the user
@@ -120,14 +137,21 @@ def profile_page():
     else:
         return render_template('profile.html', username=username)
     
-@app.route('/dashboard/calendar')
+# @app.route('/dashboard/calendar')
+# def calendar_page():
+#     username = session.get('username')
+#     if username is None or username == "Guest":
+#         return redirect(url_for('login_page'))
+#     else:
+#         return render_template('Calendar.html', username=username)
+    
+@app.route('/calendar')
 def calendar_page():
-    username = session.get('username')
-    if username is None or username == "Guest":
-        return redirect(url_for('login_page'))
-    else:
-        return render_template('Calendar.html', username=username)
+    return render_template('Calendar.html')
     
-    
+@app.route('/todo')
+def todo2_page():
+    return render_template('todo_2.html')
+
 if __name__ == '__main__':
     app.run(debug=True, port=9999)
