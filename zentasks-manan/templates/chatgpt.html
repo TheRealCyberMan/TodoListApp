@@ -1,171 +1,318 @@
-from flask import Flask, render_template, request, session, redirect, url_for
-import sqlite3
-import hashlib
-import openai
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenAI - {{ username }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+        * {
+            margin: 0;
+            padding: 0;
+            outline: none;
+            border: none;
+            text-decoration: none;
+            list-style: none;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
 
-from flask import jsonify, render_template, request, session, redirect, url_for
+        body {
+            display: flex;
+        }
 
-app = Flask(__name__, static_folder='static')
-app.secret_key = "your_secret_key"  # Change this to a secure secret key
+        .sidebar {
+            position: sticky;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 252px;
+            height: 100vh;
+            padding: 0 1.7rem;
+            color: #fff;
+            overflow: hidden;
+            transition: all ease-in-out 250ms;
+            background-color: #4c4c4c;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
 
-def username_exists(username):
-    conn = sqlite3.connect("userdata.db")
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM userdata WHERE username=?", (username,))
-    result = cur.fetchone()
-    conn.close()
-    return result is not None
+        .logo {
+            height: 80px;
+            padding: 16px;
+        }
 
-@app.route('/login', methods=['GET', 'POST'])
-def login_page():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        password = hashlib.sha256(password.encode()).hexdigest()
-        session['username'] = username
+        .menu {
+            height: 88%;
+            position: relative;
+            list-style: none;
+            padding: 0;
+        }
+        .main__content{
+            position: relative;
+            background-color: #262626;
+            width: 100%;
+            padding: 1rem;
+        }
 
-        conn = sqlite3.connect("userdata.db")
-        cur = conn.cursor()
+        .menu li {
+            padding: 1rem;
+            margin: 8px 0;
+            border-radius: 8px;
+            transition: all ease-in-out 250ms;
+        }
 
-        cur.execute("SELECT * FROM userdata WHERE username = ? AND password = ?", (username, password))
+        .menu li:hover {
+            background-color: #1fcc44;
+            color: #2F302F;
+        }
 
-        user_data = cur.fetchone()
-        if user_data:
-            # return "Login successful! Welcome, {} back to ZenTasks".format(username)
-            return "Login successful!"
-            user_id = user_data[0]
-            #We need to redirect to main.html from here
-        else:
-            return "Login failed. User Not Found or incorrect password."
+        .menu a {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
-    return render_template('login.html')
+        .menu a span {
+            overflow: hidden;
+        }
 
-@app.route('/dashboard/zenai')
-def zenai_page():
-    username = session.get('username')
-    if username is None or username == "Guest":
-        return redirect(url_for('login_page'))
-    else:
-        return render_template('chatgpt.html', username=username)
+        .menu a i {
+            font-size: 1.2rem;
+        }
 
-@app.route('/signup', methods=['GET', 'POST'])
-def signup_page():
-    if request.method == 'POST':
-        new_username = request.form['username']
-        new_password = request.form['password']
-        new_password = hashlib.sha256(new_password.encode()).hexdigest()
+        .logout {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 180px;
+        }
 
-        session['username'] = new_username
+        .main__content {
+            position: relative;
+            width: 100%;
+            padding: 1rem;
+        }
 
-        conn = sqlite3.connect("userdata.db")
-        cur = conn.cursor()
+        .header__wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: #4c4c4c;
+            border-radius: 20px;
+            padding: 10px 2rem;
+            margin-bottom: 1rem;
+        }
 
-        if username_exists(new_username):
-            return "Username already exists. Please choose a different username."
+        .header__title {
+            color: white;
+        }
 
-        if (new_username=="" or new_password==""):
-            return "Username or Password is empty."
+        .user__info {
+            display: flex;
+            align-items: center;
+            gap: 1;
+        }
 
-        if(len(new_username)<6 or len(new_password)<6):
-            return "Username and Password must be atleast 6 characters!"
+        .search__box {
+            background-color: #262626;
+            border-radius: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            margin-left: 700px;
+        }
 
-        # if(new_username.find(" ") or new_password.find(" ")):
-        #     return "Username and Password cannot contain space!"
+        .search__box input {
+            background-color: #262626;
+            padding: 10px;
+            border-radius: 15px;
+            color: white;
+        }
 
-        else:
-            cur.execute("INSERT INTO userdata(username, password) VALUES (?, ?)", (new_username, new_password))
-            conn.commit()
+        .search__box input::placeholder {
+            color: white;
+        }
 
-            # Get the user_id of the newly created user
-            cur.execute("SELECT id FROM userdata WHERE username=?", (new_username,))
-            user_id = cur.fetchone()[0]
+        .search__box i {
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.5s ease-out;
+        }
 
-            return "Login successful!"
-        #We need to redirect to main.html from here
+        .chatbox {
+            width: 500px;
+            min-height: 300px;
+            background: #000;
+            padding: 25px;
+            margin: 50px auto;
+            box-shadow: 0 3px #4c4c4c;
+            border-radius: 20px;
+        }
 
-    return render_template('signup.html')
+        .chatlogs {
+            padding: 10px;
+            width: 100%;
+            height: 200px;
+            overflow-y: auto; /* Change to "auto" to enable scrollbar */
+            background: #4c4c4c;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
 
-@app.route('/dashboard')
-def dashboard():
-    username = session.get('username')
-    if username == "Guest":
-        return render_template('dashboard.html', username="Guest")
-    if username is None:
-        return redirect(url_for('login_page'))
-    return render_template('dashboard.html', username=username)
+        .chatlogs::-webkit-scrollbar {
+            width: 6px;
+        }
 
-@app.route('/dashboard-guest')
-def dashboard__guest():
-    username = session.get('username')
-    if username !=None or username != "Guest":
-        username = session.get('username')
-        # return redirect(url_for('dashboard'))
-        return render_template('dashboard.html', username="Guest")
+        .chatlogs::-webkit-scrollbar-thumb {
+            background: #1fcc44;
+            border-radius: 3px;
+        }
 
-    return render_template('dashboard.html', username=username)
+        .chatlogs::-webkit-scrollbar-thumb:hover {
+            background: #13a632;
+        }
 
-@app.route('/')
-def landing_page():
-    return render_template('landing.html')
+        .chatlogs::-webkit-scrollbar-track {
+            background: #4c4c4c;
+            border-radius: 5px; /* Rounded scrollbar track */
+        }
 
-@app.route('/dashboard/todo')
-def todo_page():
-    username = session.get('username')
-    if username is None or username == "Guest":
-        return redirect(url_for('login_page'))
-    else:
-        return render_template('todo.html', username=username)
+        .chat-form {
+            display: flex;
+        }
 
-@app.route('/dashboard/chatgpt')
-def chatgpt_page():
-    username = session.get('username')
-    if username is None or username == "Guest":
-        return redirect(url_for('login_page'))
-    else:
-        return render_template('chatgpt.html', username=username)
+        .chat-form textarea {
+            width: 80%;
+            padding: 10px;
+            border-radius: 20px; /* Added rounded border */
+            background-color: #262626; /* Changed background color */
+            color: white;
+        }
 
+        .chat-form button {
+            width: 20%;
+            background: #1fcc44;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
 
-@app.route('/logout')
-def logout():
-    # Clear the session to log out the user
-    session.clear()
-    return redirect(url_for('landing_page'))
+        .chat-form button:hover {
+            background-color: #13a632;
+        }
 
-@app.route('/dashboard/profile')
-def profile_page():
-    username = session.get('username')
-    if username is None or username == "Guest":
-        return redirect(url_for('login_page'))
-    else:
-        return render_template('profile.html', username=username)
+        .back-button {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
 
-@app.route('/dashboard/calendar')
-def calendar_page():
-    username = session.get('username')
-    if username is None or username == "Guest":
-        return redirect(url_for('login_page'))
-    else:
-        return render_template('Calendar.html', username=username)
+        .back-button a {
+            background-color: #4c4c4c;
+            color: #1fcc44;
+            border: 2px solid #1fcc44;
+            border-radius: 8px;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
 
-@app.route('/dashboard/time')
-def time_page():
-    return render_template("Time.html")
-# Set your OpenAI API key here
-openai.api_key = "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"
+        .back-button a:hover {
+            background-color: #1fcc44;
+            color: #262626;
+        }
+    </style>
+</head>
+<body>
 
-@app.route('/chatbot', methods=['POST'])
-def chatbot():
-    message = request.json.get('message')
+<div class="sidebar">
+    <div class="logo"></div>
+    <ul class="menu">
+        <li class="logout">
+            <a href="{{ url_for('logout') }}">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+    </ul>
+</div>
 
-    # You can use OpenAI GPT-3 to generate a chatbot response
-    response = openai.Completion.create(
-        engine="davinci",  # You can choose another engine if needed
-        prompt=message,
-        max_tokens=10  # Adjust the max tokens as needed
-    )
+<div class="main__content">
+    <div class="header__wrapper">
+        <div class="header__title">
+            <span>Hi, {{ username }}</span>
+            <h2>ZenAI</h2>
+        </div>
+        <div class="user__info">
+            <div class="search__box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search" />
+            </div>
+        </div>
+    </div>
+    <div class="chatbox">
+        <div class="chatlogs" id="chatlogs">
+            <!-- Messages will be displayed here -->
+        </div>
+        <div class="chat-form">
+            <textarea id="messageInput" placeholder="Type your message..."></textarea>
+            <button id="sendBtn">Send</button>
+        </div>
+    </div>
+    <div class="back-button">
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const sendButton = document.getElementById('sendBtn');
+    const messageInput = document.getElementById('messageInput');
+    const chatlogs = document.getElementById('chatlogs');
 
-    return jsonify({'response': response.choices[0].text})
+    sendButton.addEventListener('click', function() {
+        let messageContent = messageInput.value.trim();
 
+        if (messageContent !== '') {
+            // Create message element
+            let messageElement = document.createElement('div');
+            messageElement.textContent = 'You: ' + messageContent; // Display user message
+            chatlogs.appendChild(messageElement);
 
-if __name__ == '__main__':
-    app.run(debug=True, port=9999)
+            // Clear the input field for new messages
+            messageInput.value = '';
+
+            // Send the user's message to the server and get a response
+            fetch('/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: messageContent
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the chatbot's response
+                let chatbotResponseElement = document.createElement('div');
+                chatbotResponseElement.textContent = 'Chatbot: ' + data.response;
+                chatlogs.appendChild(chatbotResponseElement);
+            })
+            .catch(error => console.error(error));
+        }
+    });
+});
+    </script>
+</div>
+</body>
+</html>
