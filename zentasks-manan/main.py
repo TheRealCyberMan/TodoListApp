@@ -148,7 +148,11 @@ def profile_page():
 @app.route('/calendar')
 def calendar_page():
     return render_template('Calendar.html')
-    
+
+@app.route('/time')
+def time_page():
+    return render_template('Time.html')
+
 @app.route('/todo')
 def todo2_page():
     return render_template('todo_2.html')
