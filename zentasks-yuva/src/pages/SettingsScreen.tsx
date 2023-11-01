@@ -1,55 +1,47 @@
-// SettingsScreen.tsx
-
 import React, { useState, useEffect } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonAvatar, IonItem, IonLabel, IonInput, IonToggle, IonIcon } from '@ionic/react';
+import {
+  IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader,
+  IonCardContent, IonAvatar, IonItem, IonLabel, IonInput, IonToggle, IonIcon
+} from '@ionic/react';
 import { personSharp, moonSharp } from 'ionicons/icons';
 import Cookies from 'universal-cookie';
-import { SHA256 } from 'crypto-js'; // Import SHA256 hash function
+import { SHA256 } from 'crypto-js';
 
 const cookies = new Cookies();
 
 const SettingsScreen: React.FC = () => {
   const [profilePicture, setProfilePicture] = useState<string>(cookies.get('profilePicture') || 'path/to/default-picture.jpg');
-  const [displayNameHashed, setDisplayNameHashed] = useState<string>(cookies.get('displayName') || 'John Doe');
-  const [usernameHashed, setUsernameHashed] = useState<string>(cookies.get('username') || 'john_doe');
+  const [displayName, setDisplayName] = useState<string>(cookies.get('displayName') || 'John Doe');
+  const [username, setUsername] = useState<string>(cookies.get('username') || 'john_doe');
   const [darkMode, setDarkMode] = useState<boolean>(cookies.get('theme') === 'dark');
 
   useEffect(() => {
-    // Save user information to cookies whenever it changes
-    cookies.set('profilePicture', hash(profilePicture), { path: '/' });
-    cookies.set('displayName', displayNameHashed, { path: '/' });
-    cookies.set('username', usernameHashed, { path: '/' });
-    cookies.set('theme', hash(darkMode ? 'dark' : 'light'), { path: '/' });
+    cookies.set('profilePicture', profilePicture, { path: '/' });
+    cookies.set('displayName', SHA256(displayName).toString(), { path: '/' });
+    cookies.set('username', SHA256(username).toString(), { path: '/' });
+    cookies.set('theme', darkMode ? 'dark' : 'light', { path: '/' });
+  }, [profilePicture, displayName, username, darkMode]);
 
-    // Apply dark mode
+  useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
-
-  }, [profilePicture, displayNameHashed, usernameHashed, darkMode]);
+  }, [darkMode]);
 
   const changeProfilePicture = () => {
-    // Implement profile picture change logic
-    // This could involve opening a file picker or using a camera
+    // TODO: Implement profile picture change logic
   };
 
   const handleToggleChange = () => {
-    setDarkMode(!darkMode);
-    document.body.classList.toggle('dark', !darkMode);
+    setDarkMode(prevMode => !prevMode);
   };
-
-  // Hashing function using SHA256
-  const hash = (value: string) => SHA256(value).toString();
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>
-            Settings
-          </IonTitle>
+          <IonTitle>Settings</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* Profile Section */}
         <IonCard>
           <IonCardHeader style={{ background: '#153828', color: '#fff', textAlign: 'center', borderRadius: '10px', padding: '10px', marginBottom: '10px' }}>
             <IonIcon icon={personSharp} size="large" />
@@ -61,15 +53,21 @@ const SettingsScreen: React.FC = () => {
             </IonAvatar>
             <IonItem>
               <IonLabel position="stacked">Display Name</IonLabel>
-              <IonInput value={displayNameHashed} onIonChange={(e) => setDisplayNameHashed(e.detail.value!)} />
+              <IonInput value={displayName} onIonChange={(e) => setDisplayName(e.detail.value!)} />
             </IonItem>
             <IonItem>
               <IonLabel position="stacked">Username</IonLabel>
-              <IonInput value={usernameHashed} onIonChange={(e) => setUsernameHashed(e.detail.value!)} />
+              <IonInput value={username} onIonChange={(e) => setUsername(e.detail.value!)} />
             </IonItem>
           </IonCardContent>
         </IonCard>
 
+        {/* Dark Mode Toggle */}
+        <IonItem>
+          <IonIcon slot="start" icon={moonSharp} />
+          <IonLabel>Dark Mode</IonLabel>
+          <IonToggle checked={darkMode} onIonChange={handleToggleChange} />
+        </IonItem>
 
       </IonContent>
     </IonPage>
