@@ -274,45 +274,48 @@
         <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
     </div>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-    const sendButton = document.getElementById('sendBtn');
-    const messageInput = document.getElementById('messageInput');
-    const chatlogs = document.getElementById('chatlogs');
+    document.addEventListener('DOMContentLoaded', function () {
+        const sendButton = document.getElementById('sendBtn');
+        const messageInput = document.getElementById('messageInput');
+        const chatlogs = document.getElementById('chatlogs');
 
-    sendButton.addEventListener('click', function() {
-        let messageContent = messageInput.value.trim();
+        sendButton.addEventListener('click', function () {
+            let messageContent = messageInput.value.trim();
 
-        if (messageContent !== '') {
-            // Create message element
-            let messageElement = document.createElement('div');
-            messageElement.textContent = 'You: ' + messageContent; // Display user message
-            chatlogs.appendChild(messageElement);
+            if (messageContent !== '') {
+                // Create message element
+                let messageElement = document.createElement('div');
+                messageElement.textContent = 'You: ' + messageContent; // Display user message
+                chatlogs.appendChild(messageElement);
 
-            // Clear the input field for new messages
-            messageInput.value = '';
+                // Clear the input field for new messages
+                messageInput.value = '';
 
-            // Send the user's message to the server and get a response
-            fetch('/chatbot', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: messageContent
+                // Send the user's message to the server and get a response
+                fetch('/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: messageContent
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Display the chatbot's response
-                let chatbotResponseElement = document.createElement('div');
-                chatbotResponseElement.textContent = 'Chatbot: ' + data.response;
-                chatlogs.appendChild(chatbotResponseElement);
-            })
-            .catch(error => console.error(error));
-        }
+                    .then(response => response.json())
+                    .then(data => {
+                        // Display the chatbot's response
+                        let chatbotResponseElement = document.createElement('div');
+                        chatbotResponseElement.textContent = 'Chatbot: ' + data.response;
+                        chatlogs.appendChild(chatbotResponseElement);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        // You can display an error message here if needed
+                    });
+            }
+        });
     });
-});
-    </script>
+</script>
 </div>
 </body>
 </html>
