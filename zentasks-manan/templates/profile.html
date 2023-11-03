@@ -7,115 +7,110 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-*{
-  margin: 0;
-  padding: 0;
-  outline: none;
-  border: none;
-  text-decoration: none;
-  list-style: none;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
+        *{
+            margin: 0;
+            padding: 0;
+            outline: none;
+            border: none;
+            text-decoration: none;
+            list-style: none;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
 
-body{
-    display: flex;
-}
+        body{
+            display: flex;
+        }
 
-.sidebar{
-    position: sticky;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 252px;
-    height: 100vh;
-    padding: 0 1.7rem;
-    color: #fff;
-    overflow: hidden;
-    transition: all ease-in-out 250ms;
-    /* background-color: #2F302F; */
-    background-color: #4c4c4c;
+        .sidebar{
+            position: sticky;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 252px;
+            height: 100vh;
+            padding: 0 1.7rem;
+            color: #fff;
+            overflow: hidden;
+            transition: all ease-in-out 250ms;
+            background-color: #4c4c4c;
+        }
 
-}
+        .logo{
+            height: 80px;
+            padding: 16px;
+        }
 
-.logo{
-    height: 80px;
-    padding: 16px;
-}
+        .menu{
+            height: 88%;
+            position: relative;
+            list-style: none;
+            padding: 0;
+        }
 
-.menu{
-    height: 88%;
-    position: relative;
-    list-style: none;
-    padding: 0;
-}
-.menu li{
-    padding: 1rem;
-    margin: 8px 0;
-    border-radius: 8px;
-    /* transition: all 0.5s ease-in-out; */
-    transition: all ease-in-out 250ms;
-}
-.menu li:hover{
-    /* background-color: #1fcc44; */
-    background-color:#1fcc44;
+        .menu li{
+            padding: 1rem;
+            margin: 8px 0;
+            border-radius: 8px;
+            transition: all ease-in-out 250ms;
+        }
 
-    color: #2F302F;
-    /* transition: all ease-in-out 250ms; */
-}
-.menu a{
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-.menu a span{
-    overflow: hidden;
-}
-.menu a i{
-    font-size: 1.2rem;
-}
+        .menu li:hover{
+            background-color:#1fcc44;
+            color: #2F302F;
+        }
 
-.logout{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 180px;
-    
-}
+        .menu a{
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
-.main__content{
-    position: relative;
-    /* background-color: #778899; */
-    background-color: #262626;
-    /* background-color: black; */
-    width: 100%;
-    padding: 1rem;
-}
+        .menu a span{
+            overflow: hidden;
+        }
 
-.header__wrapper{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    background-color: #2F302F;
-    background-color: #4c4c4c;
-    border-radius: 10px;
-    padding: 10px 2rem;
-    margin-bottom: 1rem;
-}
+        .menu a i{
+            font-size: 1.2rem;
+        }
 
-.header__title{
-    color: white;
-}
+        .logout{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 180px;
+        }
 
-.user__info{
-    display: flex;
-    align-items: center;
-    gap: 1;
-}
+        .main__content{
+            position: relative;
+            background-color: #262626;
+            width: 100%;
+            padding: 1rem;
+        }
 
-.search__box{
+        .header__wrapper{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: #4c4c4c;
+            border-radius: 10px;
+            padding: 10px 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .header__title{
+            color: white;
+        }
+
+        .user__info{
+            display: flex;
+            align-items: center;
+            gap: 1;
+        }
+
+        .search__box{
     /* background-color: bla; */
     background-color: #4c4c4c;
     background-color: #262626;
@@ -149,54 +144,17 @@ body{
     transition: all 0.5s ease-out;
 }
 
-/* Main Section */
-.main{
-  position: relative;
-  padding: 20px;
-  width: 100%;
-}
-.main-top{
-  display: flex;
-  width: 100%;
-}
-.main-top i{
-  position: absolute;
-  right: 0;
-  margin: 10px 30px;
-  color: rgb(110, 109, 109);
-  cursor: pointer;
-}
-.main-skills{
-  display: flex;
-  margin-top: 20px;
-  color: white;
-}
-.main-skills .card{
-  width: 50%;
-  height: 500px;
-  margin: 10px;
-  background: #2F302F;
-  background-color: #4c4c4c;
-  text-align: center;
-  border-radius: 20px;
-  padding: 10px;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
-}
-.main-skills .card h3{
-  margin: 10px;
-  text-transform: capitalize;
-  color: white;
-}
-.main-skills .card p{
-  font-size: 12px;
-  color: white;
-}
+        .profile-box {
+            background-color: #262626;
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            margin-bottom: 1rem;
+        }
 
-.main-skills .card i{
-  font-size: 22px;
-  padding: 10px;
-}
-
+        .label {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -216,11 +174,17 @@ body{
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ url_for('calendar_page') }}">
                     <i class="fas fa-calendar"></i>
                     <span>Calender</span>
                 </a>
             </li>
+           <li>
+    <a href="{{ url_for('chatgpt_page') }}">
+        <i class="fas fa-robot"></i> <!-- Assuming "fas fa-robot" represents the ZenAI icon -->
+        <span>ZenAI</span>
+    </a>
+</li>
             <li>
                 <a href="{{ url_for('todo_page') }}">
                     <i class="fas fa-tasks"></i>
@@ -228,10 +192,11 @@ body{
                 </a>
             </li>
             <li>
-                <a href="#">
-                    <i class="fas fa-history"></i>
-                    <span>Success History</span>
-                </a>
+               <a href="{{ url_for('time_page') }}">
+    <i class="fas fa-history"></i>
+    <span>Time</span>
+</a>
+
             </li>
             <li>
                 <a href="#">
@@ -247,7 +212,6 @@ body{
             </li>
         </ul>
     </div>
-
     <div class="main__content">
         <div class="header__wrapper">
             <div class="header__title">
@@ -262,5 +226,21 @@ body{
             </div>
         </div>
 
+        <!-- Profile boxes for username, email, and password -->
+        <div class="profile-box">
+            <div class="label">Username:</div>
+            <div id="username">mainadmin</div>
+        </div>
+
+        <div class="profile-box">
+            <div class="label">Email:</div>
+            <div id="email">mainadmin@zentasks.com</div>
+        </div>
+
+        <div class="profile-box">
+            <div class="label">Password:</div>
+            <div id="password">********</div>
+        </div>
+    </div>
 </body>
 </html>

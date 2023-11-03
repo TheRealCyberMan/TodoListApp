@@ -1,10 +1,17 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 import sqlite3
 import hashlib
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, jsonify
 
 app = Flask(__name__, static_folder='static')
-app.secret_key = "your_secret_key"  # Change this to a secure secret key
+app.secret_key = "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"  # Change this to a secure secret key
+
+chatbot_responses = {
+    "hello": "Hello! How can I assist you?",
+    "how are you": "I'm just a chatbot, but I'm here to help.",
+    "bye": "Goodbye! Feel free to return if you have more questions.",
+    "write an essay on frisco high school with 100 words": "Frisco High School in Texas epitomizes academic excellence and community engagement. With a dynamic faculty and cutting-edge resources, the school prioritizes rigorous academics, fostering an inclusive environment that celebrates diversity. Beyond the classroom, Frisco High School excels in sports and the arts, promoting a holistic approach to student development. The school's commitment to community involvement, through partnerships and service learning, cultivates responsible and engaged citizens. Frisco High School, with its blend of academic prowess, extracurricular vibrancy, and community focus, stands as a model institution, preparing students not just for success in their studies but for impactful contributions to society."
+}
 
 def username_exists(username):
     conn = sqlite3.connect("userdata.db")
@@ -145,17 +152,29 @@ def profile_page():
 #     else:
 #         return render_template('Calendar.html', username=username)
     
+
+@app.route('/chatbot', methods=['POST'])
+def chatbot():
+    user_message = request.json.get('message').lower()
+    chatbot_response = chatbot_responses.get(user_message, "I don't understand that. Can you please rephrase?")
+
+    return jsonify({'response': chatbot_response})
+
 @app.route('/calendar')
 def calendar_page():
+    return render_template('Calendar_2.html')
+
+@app.route('/calendar_2')
+def calendar_2_page():
     return render_template('Calendar.html')
-
-@app.route('/time')
-def time_page():
-    return render_template('Time.html')
-
+    
 @app.route('/todo')
 def todo2_page():
     return render_template('todo_2.html')
+
+@app.route('/dashbaord/time')
+def time_page():
+    return render_template('time.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=9999)

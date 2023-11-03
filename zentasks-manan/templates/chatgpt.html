@@ -34,8 +34,7 @@
             overflow: hidden;
             transition: all ease-in-out 250ms;
             background-color: #4c4c4c;
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
+
         }
 
         .logo {
@@ -163,6 +162,7 @@
             background: #4c4c4c;
             margin-bottom: 20px;
             border-radius: 5px;
+            color: white;
         }
 
         .chatlogs::-webkit-scrollbar {
@@ -239,14 +239,58 @@
 <div class="sidebar">
     <div class="logo"></div>
     <ul class="menu">
+        <li>
+            <a href="{{ url_for('dashboard') }}" class="active">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('profile_page') }}">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('calendar_page') }}">
+                <i class="fas fa-calendar"></i>
+                <span>Calender</span>
+            </a>
+        </li>
+       <li>
+<a href="{{ url_for('chatgpt_page') }}">
+    <i class="fas fa-robot"></i> <!-- Assuming "fas fa-robot" represents the ZenAI icon -->
+    <span>ZenAI</span>
+</a>
+</li>
+        <li>
+            <a href="{{ url_for('todo_page') }}">
+                <i class="fas fa-tasks"></i>
+                <span>To-Do List</span>
+            </a>
+        </li>
+        <li>
+           <a href="{{ url_for('time_page') }}">
+<i class="fas fa-history"></i>
+<span>Time</span>
+</a>
+
+        </li>
+        <li>
+            <a href="#">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </li>
         <li class="logout">
             <a href="{{ url_for('logout') }}">
                 <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
+                <span">Logout</span>
             </a>
         </li>
     </ul>
 </div>
+
 
 <div class="main__content">
     <div class="header__wrapper">
@@ -263,6 +307,7 @@
     </div>
     <div class="chatbox">
         <div class="chatlogs" id="chatlogs">
+        <div>Hello! How can I assist you today on your journey to mindfulness and productivity?</div>
             <!-- Messages will be displayed here -->
         </div>
         <div class="chat-form">
@@ -273,7 +318,7 @@
     <div class="back-button">
         <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
     </div>
-    <script>
+   <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sendButton = document.getElementById('sendBtn');
             const messageInput = document.getElementById('messageInput');

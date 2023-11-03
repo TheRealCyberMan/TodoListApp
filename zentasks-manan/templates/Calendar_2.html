@@ -280,6 +280,7 @@ nav a:hover::before {
 .red-dot {
     background: red;
 }
+
     </style>
 </head>
 <body>
@@ -303,6 +304,7 @@ nav a:hover::before {
                 <li>Sat</li>
             </ul>
             <ul class="days"></ul>
+            <a href="{{ url_for('dashboard') }}" class="back-button">Back to Dashboard</a>
         </div>
     </div>
     <div class="sidebar">
@@ -318,6 +320,7 @@ nav a:hover::before {
             <ul id="event-list"></ul>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
     const daysTag = document.querySelector(".days");

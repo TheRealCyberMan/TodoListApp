@@ -210,11 +210,17 @@ input{
               </a>
           </li>
           <li>
-              <a href="#">
+              <a href="{{ url_for('calendar_page') }}">
                   <i class="fas fa-calendar"></i>
                   <span>Calender</span>
               </a>
           </li>
+          <li>
+            <a href="{{ url_for('chatgpt_page') }}">
+                <i class="fas fa-robot"></i>
+                <span>ZenAI</span>
+            </a>
+        </li>
           <li>
               <a href="{{ url_for('todo_page') }}">
                   <i class="fas fa-tasks"></i>
